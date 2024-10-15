@@ -33,8 +33,8 @@ public class RabbitMQEventConsumer {
                 .eventType(event.eventType())
                 .occurredAt(event.occurredAt());
 
-        LinkedHashMap content = (LinkedHashMap) event.content();
-        if(content.containsKey("visitorType") && content.containsKey("companyName")) {
+        var content = (LinkedHashMap) event.content();
+        if(content.containsKey("companyDto") && content.containsKey("visitorDto")) {
             CompanyVisitorAssociationDto association = mapper.convertValue(content, CompanyVisitorAssociationDto.class);
             buildCompanyVisitantAssociationContent(eventBuilder, association);
         } else if(content.containsKey("visitorType")) {
@@ -49,9 +49,6 @@ public class RabbitMQEventConsumer {
 
         return eventBuilder.build();
     }
-
-
-
 
     private void buildVisitorContent(EventEntity.EventEntityBuilder eventBuilder, VisitorDto content) {
         eventBuilder
